@@ -39,6 +39,7 @@ echo "Custom Entrypoint Loaded at $(date)"
 # Function to print gradient text
 print_gradient() {
     local text="$1"
+    # Example gradient from red → yellow → green → cyan
     local colors=(196 202 208 214 220 226 190 154 118 82 46 47 48 49 50)
     for i in $(seq 0 $((${#text}-1))); do
         char="${text:$i:1}"
@@ -49,7 +50,7 @@ print_gradient() {
 }
 
 # Print Java version with gradient prompt
-print_gradient "server@acenodes"
+print_gradient "server@acenodes~"
 printf " java -version\n"
 java -version
 
@@ -60,7 +61,7 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat
 
 # Display the command we're running in the output, and then execute it with the env
 # from the container itself.
-print_gradient "server@acenodes"
+print_gradient "server@acenodes~"
 printf " %s\n" "$PARSED"
 
 # shellcheck disable=SC2086
