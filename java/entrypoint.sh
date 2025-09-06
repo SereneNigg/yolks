@@ -36,15 +36,14 @@ cd /home/container || exit 1
 # Debug line to confirm entrypoint loaded
 echo "Custom Entrypoint Loaded at $(date)"
 
-# Function to print gradient text
+# Function to print fixed gradient for "server@acenodes~"
 print_gradient() {
     local text="$1"
-    # Example gradient from red → yellow → green → cyan
-    local colors=(196 202 208 214 220 226 190 154 118 82 46 47 48 49 50)
-    for i in $(seq 0 $((${#text}-1))); do
-        char="${text:$i:1}"
-        color="${colors[$i % ${#colors[@]}]}"
-        printf "\033[38;5;${color}m%s" "$char"
+    local chars=(s e r v e r @ a c e n o d e s ~)
+    # Colors mapped exactly to your screenshot (purple → red → orange → yellow)
+    local colors=(93 93 93 93 93 93 196 202 208 208 208 214 214 220 226 226)
+    for i in "${!chars[@]}"; do
+        printf "\033[38;5;${colors[$i]}m%s" "${chars[$i]}"
     done
     printf "\033[0m"
 }
