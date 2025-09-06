@@ -33,8 +33,24 @@ export INTERNAL_IP
 # Switch to the container's working directory
 cd /home/container || exit 1
 
-# Print Java version
-printf "\033[1m\033[33mserver@acenodes~ \033[0mjava -version\n"
+# Debug line to confirm entrypoint loaded
+echo "Custom Entrypoint Loaded at $(date)"
+
+# Function to print gradient text
+print_gradient() {
+    local text="$1"
+    local colors=(196 202 208 214 220 226 190 154 118 82 46 47 48 49 50)
+    for i in $(seq 0 $((${#text}-1))); do
+        char="${text:$i:1}"
+        color="${colors[$i % ${#colors[@]}]}"
+        printf "\033[38;5;${color}m%s" "$char"
+    done
+    printf "\033[0m"
+}
+
+# Print Java version with gradient prompt
+print_gradient "server@acenodes"
+printf " java -version\n"
 java -version
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
@@ -44,6 +60,8 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat
 
 # Display the command we're running in the output, and then execute it with the env
 # from the container itself.
-printf "\033[1m\033[33mserver@acenodes~ \033[0m%s\n" "$PARSED"
+print_gradient "server@acenodes"
+printf " %s\n" "$PARSED"
+
 # shellcheck disable=SC2086
 exec env ${PARSED}
