@@ -36,20 +36,13 @@ cd /home/container || exit 1
 # Debug line to confirm entrypoint loaded
 echo "Custom Entrypoint Loaded at $(date)"
 
-# Function to print fixed gradient for "server@acenodes~"
-print_gradient() {
-    local text="$1"
-    local chars=(s e r v e r @ a c e n o d e s ~)
-    # Colors mapped exactly to your screenshot (purple → red → orange → yellow)
-    local colors=(93 93 93 93 93 93 196 202 208 208 208 214 214 220 226 226)
-    for i in "${!chars[@]}"; do
-        printf "\033[38;5;${colors[$i]}m%s" "${chars[$i]}"
-    done
-    printf "\033[0m"
+# Function to print server@acenodes~ in blue
+print_blue() {
+    printf "\033[38;5;27mserver@acenodes~\033[0m"
 }
 
-# Print Java version with gradient prompt
-print_gradient "server@acenodes~"
+# Print Java version with blue prompt
+print_blue
 printf " java -version\n"
 java -version
 
@@ -60,7 +53,7 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat
 
 # Display the command we're running in the output, and then execute it with the env
 # from the container itself.
-print_gradient "server@acenodes~"
+print_blue
 printf " %s\n" "$PARSED"
 
 # shellcheck disable=SC2086
