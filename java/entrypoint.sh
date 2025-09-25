@@ -33,17 +33,8 @@ export INTERNAL_IP
 # Switch to the container's working directory
 cd /home/container || exit 1
 
-# Debug line to confirm entrypoint loaded
-echo "Custom Entrypoint Loaded at $(date)"
-
-# Function to print plain prompt
-print_prompt() {
-    printf "server@acenodes~"
-}
-
-# Print Java version with plain prompt
-print_prompt
-printf " java -version\n"
+# Print Java version
+printf "\033[1m\033[33mserver@acenodes~ \033[0mjava -version\n"
 java -version
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
@@ -52,9 +43,7 @@ java -version
 PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat -)")
 
 # Display the command we're running in the output, and then execute it with the env
-# from the container itself.
-print_prompt
-printf " %s\n" "$PARSED"
+printf "\033[1m\033[33mserver@acenodes~ \033[0m%s\n" "$PARSED"
 
 # shellcheck disable=SC2086
 exec env ${PARSED}
