@@ -36,13 +36,13 @@ cd /home/container || exit 1
 # Debug line to confirm entrypoint loaded
 echo "Custom Entrypoint Loaded at $(date)"
 
-# Function to print server@acenodes~ in light blue (sky blue)
-print_lightblue() {
-    printf "\033[38;5;123mserver@acenodes~\033[0m"
+# Function to print plain prompt
+print_prompt() {
+    printf "server@acenodes~"
 }
 
-# Print Java version with light blue prompt
-print_lightblue
+# Print Java version with plain prompt
+print_prompt
 printf " java -version\n"
 java -version
 
@@ -53,7 +53,7 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat
 
 # Display the command we're running in the output, and then execute it with the env
 # from the container itself.
-print_lightblue
+print_prompt
 printf " %s\n" "$PARSED"
 
 # shellcheck disable=SC2086
